@@ -1,0 +1,44 @@
+﻿@page "/counter"
+
+<h1>Contador</h1>
+
+<p>Nesse sistema vamos criar dois botões, onde um vai somar +1 e outro +5</p>
+
+<p role="status">Valor corrente: @currentCount</p>
+
+<button class="btn btn-danger" @onclick="MostrarMensagem" title="esse botão vai mostrar uma mensagem"> @titulo </button>
+
+<button class="btn btn-primary" @onclick="IncrementCount">+1</button>
+
+<button class="btn btn-primary" @onclick="IncrementCount5">+5</button>
+
+<p>@mensagem</p>
+
+@code {
+    private int currentCount = 0;
+    private string mensagem = "";
+    private string titulo = "Mostrar";
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private void IncrementCount5()
+    {
+        currentCount += 5;
+    }
+
+    private void MostrarMensagem() {
+        if (titulo == "Mostrar")
+        {
+            mensagem = "Mensagem mostrada!!!";
+            titulo = "Esconder";
+        } 
+        else
+        {
+            mensagem = "";
+            titulo = "Mostrar";    
+        }
+    }
+}
