@@ -4,7 +4,7 @@ namespace LojaApp.Pages;
 public partial class Todo
 {
 	private List<TodoModel> todos = new();
-	private string novaTarefa;
+	private string? novaTarefa;
 
 	private void AdicionarTarefa()
 	{
