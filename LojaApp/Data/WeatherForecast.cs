@@ -1,4 +1,6 @@
 
+using System;
+
 namespace LojaApp.Data;
 public class WeatherForecast
 {

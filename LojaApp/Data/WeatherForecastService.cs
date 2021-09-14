@@ -1,4 +1,8 @@
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace LojaApp.Data;
 public class WeatherForecastService
 {
