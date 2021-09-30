@@ -13,11 +13,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MudBlazor" Version="5.1.4" />
+    <PackageReference Include="MudBlazor" Version="5.1.5" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pages\Cliente\" />
+    <Folder Include="Pages\Cliente\" />
+    <Folder Include="Pages\Produto\" />
     <Folder Include="Pages\Produto\" />
     <Folder Include="Properties\ServiceDependencies\" />
   </ItemGroup>
