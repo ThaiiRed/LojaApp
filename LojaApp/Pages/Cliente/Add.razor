@@ -1,0 +1,33 @@
+﻿<!--Cliente/Add: uma página Add para cliente que permite adicionar um cliente ao banco de dados-->
+@page "/cliente/add"
+
+@inject LojaContext cadastro
+
+<h3>Adicionar Cliente</h3>
+<p>
+    Cliente: <input type="text" @bind="novoCliente"/>
+</p>
+<p>
+    <button class="btn btn-info" @onclick="Adicionar">Adicionar Cliente</button>
+</p>
+
+<div class="alert alert-success">@mensagem</div>
+
+@code {
+
+    private string novoCliente; 
+    private string mensagem = "";
+    
+    private void Adicionar()
+    {
+        var cliente = new Cliente
+        {
+            Nome = novoCliente
+        };
+        cadastro.Clientes.Add(cliente);
+        cadastro.SaveChanges();
+
+        mensagem = "Cliente adicionado";
+    }
+
+}

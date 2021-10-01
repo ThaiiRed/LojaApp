@@ -1,0 +1,68 @@
+﻿<!--Cliente/Index: uma página index para cliente que permite listar todos os clientes cadastrados-->
+@page "/cliente/index"
+@page "/cliente"
+
+<!-- Um context é um db-->
+@inject LojaContext dbCliente;
+
+<!--3. Criar a página index de cliente com os campos: nome, cpf, telefone e email (1 ponto)-->
+<MudContainer>
+    <MudText Typo="Typo.h5">Clientes</MudText>
+    <MudTable Items="@Clientes" MultiSelection="true" Bordered="false" Hover="true" Filter="new Func<Cliente,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+        <ToolBarContent>
+            <MudTextField @bind-Value="searchString1" Placeholder="Pesquisar cliente" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<Cliente, object>(x=>x.Nome)">Nome</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Cliente, object>(x=>x.Cpf)">CPF</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Cliente, object>(x=>x.Telefone)">Telefone</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Cliente, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Nome</MudTd>
+            <MudTd DataLabel="reg">@context.Cpf</MudTd>
+            <MudTd DataLabel="tel">@context.Telefone</MudTd>
+            <MudTd DataLabel="mail">@context.Email</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    // Criando uma lista do tipo cliente. O nome da lista é Clientes.
+    private IEnumerable<Cliente> Clientes { get; set; }
+
+    private Cliente? selectedItem1 = null;
+
+    private string searchString1 = "";
+    private string searchString2 = "";
+
+    // "protected" por ser um método que já existe na página Pai. "override" por estar reescrevendo o que já existe. 
+    // É bom trabalhar com métodos "async" pq ele executa mas não trava o resto do processo (podendo ser criado vários processos em paralelo)
+    // Quando este metodo é invocado, aparecerá o conteúdo dele quando a -página for iniciada-!
+    protected override async Task OnInitializedAsync()
+    {
+        // o await é usado pq é assincrono, sendo assim, tem que esperar ele executar.
+        Clientes = await dbCliente.Clientes.ToListAsync();
+    }
+    /* Assim seria se o método fosse sync
+     protected override void OnInitializedAsync()
+     {
+        Categorias = db.Categorias.ToList();
+     }
+     --------------------------------------------------------------------------------------------------------------------------------------*/
+
+    private bool FilterFunc1(Cliente cliente) => FilterFunc(cliente, searchString1);
+
+    private bool FilterFunc(Cliente cliente, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (cliente.Nome.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+}

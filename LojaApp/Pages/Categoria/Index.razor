@@ -1,6 +1,7 @@
 ﻿@page "/categoria/index"
 @page "/categoria"
 
+<!-- Um context é um db-->
 @inject LojaContext db;
 
 <MudContainer>
@@ -24,6 +25,7 @@
 </MudContainer>
 
 @code {
+    // Criando uma lista do tipo categoria. O nome da lista é Categorias.
     private IEnumerable<Categoria> Categorias { get; set; }
 
     private Categoria? selectedItem1 = null;
@@ -31,10 +33,20 @@
     private string searchString1 = "";
     private string searchString2 = "";
 
+    // "protected" por ser um método que já existe na página Pai. "override" por estar reescrevendo o que já existe. 
+    // É bom trabalhar com métodos "async" pq ele executa mas não trava o resto do processo (podendo ser criado vários processos em paralelo)
+    // Quando este metodo é invocado, aparecerá o conteúdo dele quando a -página for iniciada-!
     protected override async Task OnInitializedAsync()
     {
+        // o await é usado pq é assincrono, sendo assim, tem que esperar ele executar.
         Categorias = await db.Categorias.ToListAsync();
     }
+    /* Assim seria se o método fosse sync
+     protected override void OnInitializedAsync()
+     {
+        Categorias = db.Categorias.ToList();
+     }
+     --------------------------------------------------------------------------------------------------------------------------------------*/
 
     private bool FilterFunc1(Categoria categoria) => FilterFunc(categoria, searchString1);
 
